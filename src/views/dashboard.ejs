@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard StockAlert</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 24px;
+      background: #f4f4f4;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+    th {
+      background: #333;
+      color: white;
+    }
+    tr.critico {
+      background: #ffdddd;
+      color: #a00;
+    }
+    tr:hover {
+      background: #f1f1f1;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      color: white;
+    }
+    .badge-ok {
+      background: #2a9d8f;
+    }
+    .badge-alerta {
+      background: #e63946;
+    }
+  </style>
+</head>
+<body>
+  <h1>Dashboard StockAlert</h1>
+  <p>Productos registrados y estado de inventario.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Cantidad</th>
+        <th>Umbral Mínimo</th>
+        <th>Estado alerta</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% productos.forEach((producto) => { %>
+        <tr class="<%= producto.cantidad < producto.umbralMinimo ? 'critico' : '' %>">
+          <td><%= producto.nombre %></td>
+          <td><%= producto.cantidad %></td>
+          <td><%= producto.umbralMinimo %></td>
+          <td>
+            <% if (producto.cantidad < producto.umbralMinimo) { %>
+              <span class="badge badge-alerta">Reponer</span>
+            <% } else { %>
+              <span class="badge badge-ok">Estable</span>
+            <% } %>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</body>
+</html>
