@@ -1,9 +1,10 @@
 const express = require('express');
-const auth = require('../middlewares/auth');
+const auth = require('../middlewares/auth'); 
 const Product = require('../models/Product');
 
 const router = express.Router();
 
+// Obtener productos
 router.get('/', async (req, res) => {
   try {
     const productos = await Product.find().sort({ nombre: 1 });
@@ -13,7 +14,8 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/', auth, async (req, res) => {
+// MODIFICADO: Se quitó el middleware 'auth' para permitir agregar productos sin token
+router.post('/', async (req, res) => {
   try {
     const { nombre, cantidad, umbralMinimo } = req.body;
     if (nombre == null || cantidad == null || umbralMinimo == null) {
@@ -34,7 +36,8 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
-router.patch('/:id', auth, async (req, res) => {
+// Opcional: También puedes quitar 'auth' de aquí si quieres editar sin token
+router.patch('/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { nombre, cantidad, umbralMinimo, estadoAlerta } = req.body;
